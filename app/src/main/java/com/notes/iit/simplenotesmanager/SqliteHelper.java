@@ -129,6 +129,14 @@ public class SqliteHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    public int delete(String id)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int result = db.delete(TABLE_NOTES, KEY_ID + "=?", new String[]{id});
+
+        return result;
+    }
+
     public boolean deleteAll(){
         SQLiteDatabase db = this.getReadableDatabase();
 

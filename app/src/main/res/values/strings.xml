@@ -9,5 +9,6 @@
     <string name="back_to_login">Back to Login</string>
     <string name="add_notes">Add Notes</string>
     <string name="save">save</string>
+    <string name="delete">Delete</string>
     <string name="delete_all">Delete All</string>
 </resources>

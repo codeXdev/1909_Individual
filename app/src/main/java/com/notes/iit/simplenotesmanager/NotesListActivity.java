@@ -9,10 +9,12 @@ import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,6 +40,30 @@ public class NotesListActivity extends AppCompatActivity {
         Cursor cursor = sqliteHelper.retriveAllNotesCursor();
         cursorAdapter = new NotesListAdapter(this, cursor);
         listView.setAdapter(cursorAdapter);
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long id) {
+                delete(id + "");
+                return false;
+            }
+        });
+    }
+
+    private void delete(final String id) {
+        new AlertDialog.Builder(this)
+                .setTitle("Title")
+                .setMessage("Do you really want to delete all the notes?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        int delete = sqliteHelper.delete(id);
+                        Log.d("Clicked", delete + "");
+                        cursorAdapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null).show();
     }
 
     private void initalizeViews() {

@@ -20,11 +20,12 @@ public class ListEditActivity extends AppCompatActivity {
     EditText description;
     TextView dateModified;
     TextView characterCount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_edit);
-        sqliteHelper=new SqliteHelper(this);
+        sqliteHelper = new SqliteHelper(this);
         initializeViews();
         final TextWatcher mTextEditorWatcher = new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -41,31 +42,34 @@ public class ListEditActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        description=(EditText)findViewById(R.id.description);
-        dateModified=(TextView)findViewById(R.id.date);
-        characterCount=(TextView)findViewById(R.id.characterCount);
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-        String currentDateTime=simpleDateFormat.format(new Date());
+        description = (EditText) findViewById(R.id.description);
+        dateModified = (TextView) findViewById(R.id.date);
+        characterCount = (TextView) findViewById(R.id.characterCount);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        String currentDateTime = simpleDateFormat.format(new Date());
         dateModified.setText(currentDateTime);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater=getMenuInflater();
-        inflater.inflate(R.menu.menu,menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.save:
-                Date date=new Date();
-                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-                String currentDateTime=simpleDateFormat.format(date);
-                Note note=new Note(description.getText().toString(),currentDateTime);
+                Date date = new Date();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                String currentDateTime = simpleDateFormat.format(date);
+                Note note = new Note(description.getText().toString(), currentDateTime);
                 sqliteHelper.addNote(note);
                 dateModified.setText(currentDateTime);
+                break;
+            case R.id.delete:
+                description.setText("");
                 break;
         }
         return super.onOptionsItemSelected(item);
